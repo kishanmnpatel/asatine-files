@@ -3,7 +3,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from './pages/Home.vue';
-import About from './pages/About.vue';
+import Shared from './pages/shared/Shared.vue';
+import Folder from './pages/Folder.vue';
 import Login from './pages/auth/Login.vue';
 import Register from './pages/auth/Register.vue';
 
@@ -14,7 +15,7 @@ const router = new VueRouter({
     linkExactActiveClass: 'active',
     routes: [
         {
-            path: '/',
+            path: '/home',
             name: 'home',
             component: Home,
             meta: {
@@ -22,9 +23,20 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/about',
-            name: 'about',
-            component: About
+            path: '/f/:hashed_id',
+            name: 'f',
+            component: Folder,
+            meta: {
+              requiresAuth: true,
+            },
+        },
+        {
+            path: '/shared',
+            name: 'shared',
+            component: Shared,
+            meta: {
+              requiresAuth: true,
+            },
         },
         {
             path: '/login',

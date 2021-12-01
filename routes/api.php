@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', 'App\Http\Controllers\Auth\AuthController@login');
-Route::post('register', 'App\Http\Controllers\Auth\AuthController@register');
+Route::post('login', [App\Http\Controllers\Auth\AuthController::class,'login']);
+Route::post('register', [App\Http\Controllers\Auth\AuthController::class,'register']);
   
 Route::group(['middleware' => 'auth.api'], function() {
-    Route::post('logout', 'App\Http\Controllers\Auth\AuthController@logout');
+    Route::post('logout', [App\Http\Controllers\Auth\AuthController::class,'logout']);
+    Route::post('getUserDetails', [App\Http\Controllers\Auth\AuthController::class,'getUserDetails']);
+    Route::resource('/folder', App\Http\Controllers\FolderController::class);
 });

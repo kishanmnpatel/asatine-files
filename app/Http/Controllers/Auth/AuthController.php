@@ -6,6 +6,7 @@ use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Folder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,7 @@ class AuthController extends Controller
     
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout','getUserDetails']);
     }
     public function register(Request $request)
     {
@@ -69,6 +70,14 @@ class AuthController extends Controller
             'httponly' => true,
             'samesite' => true,
         ];
+    }
+    public function getUserDetails()
+    {
+        $user = Auth::user();
+        return response()
+                ->json([
+                    'logged_in_user' => $user,
+                ]);
     }
     public function logout(Request $request)
     {

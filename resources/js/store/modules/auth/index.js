@@ -58,8 +58,8 @@ const actions = {
     await axios
       .post(context.getters.getAuth.api_url + "/login", payload)
       .then(response => {
-        let currentUser = Object.assign({}, response.data.user, {
-          token: response.data.access_token
+        let currentUser = Object.assign({}, response.data.logged_in_user, {
+          token: response.data.token
         });
         localStorage.setItem("user", JSON.stringify(currentUser));
         context.commit("setCurrentUser", currentUser);
@@ -69,11 +69,9 @@ const actions = {
         router.push({ path: "/" });
       })
       .catch(error => {
-        console.log(error.response)
         if (error.response) {
           if (error.response.status == 401) {
             context.dispatch("setErrorMessage", error.response.data.message);
-            console.log(error.response);
             context.commit("loginFailed");
           } else {
             context.dispatch(
@@ -100,7 +98,6 @@ const actions = {
         router.push({ path: "/login" });
       })
       .catch(error => {
-        console.log(error.response)
         if (error.response) {
           if (error.response.status == 401) {
             context.dispatch("setErrorMessage", error.response.data.message);
